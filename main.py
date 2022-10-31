@@ -1,34 +1,30 @@
 from PIL import Image
 
 
-ASCII_CHARS = ["@", "&", "#", "%", "?", "*", "+", ";", ":", ",", "."]
+CHARACTERS = ["@", "&", "$", "#", "%", "?", "+", ";", ":", ",", "."]
 
 
-def resize_image(image: Image, new_width=100):
-    width, height = image.size
-    ratio = height / width / 2
-    new_height = int(new_width * ratio)
-    resized_image = image.resize((new_width, new_height))
+def resize_image(image: Image, resized_image_width: int) -> Image:
+    original_width, original_height = image.size
+    resize_ratio = original_height / original_width / 2
+    resized_image_height = int(resized_image_width * resize_ratio)
 
-    return (resized_image)
-
-
-def grayify(image: Image):
-    return image.convert("L")
+    return image.resize((resized_image_width, resized_image_height))
 
 
-def pixels_to_ascii(image: Image):
+def image_to_ascii_string(image: Image) -> str:
     pixels = image.getdata()
-    characters = "".join([ASCII_CHARS[pixel//25] for pixel in pixels])
-    return characters
+
+    return "".join([CHARACTERS[pixel//25] for pixel in pixels])
 
 
-def main(new_width=100):
+def main(image_width=100) -> None:
     with Image.open("./bad-apple.jpg") as image:
-        new_image = pixels_to_ascii(grayify(resize_image(image, new_width)))
-        pixel_count = len(new_image)
-        ascii_image = "\n".join([new_image[index:(index+new_width)]
-                                for index in range(0, pixel_count, new_width)])
+        resized_image = resize_image(image, image_width)
+        grayscaled_image = resized_image.convert("L")
+        ascii_image_stringified = image_to_ascii_string(grayscaled_image)
+        ascii_image = "\n".join([ascii_image_stringified[i:(i+image_width)]
+                                for i in range(0, len(ascii_image_stringified), image_width)])
 
         print(ascii_image)
 
