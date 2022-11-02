@@ -6,6 +6,4 @@
 *.txt
 
 /frames/*.png
-/video/*.mp4
-
-run.sh
+/video/*.mkv
