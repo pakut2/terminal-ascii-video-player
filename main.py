@@ -28,6 +28,14 @@ def image_to_ascii_string(image: cv.Mat) -> str:
 
     return ascii_image
 
+def print_image(image_width = 300)->None:
+    image = cv.imread("./crazy.jpg", cv.IMREAD_GRAYSCALE)
+    resized_image = resize_image(image, image_width)
+    ascii_image_array = image_to_ascii_string(resized_image)
+    ascii_image = "".join(ascii_image_array)
+
+    print(ascii_image)
+
 
 def main(image_width=100) -> None:
     frame_duration = 1 / FPS
@@ -49,4 +57,4 @@ def main(image_width=100) -> None:
             time.sleep(frame_delay)
 
 
-main(200)
+print_image()
