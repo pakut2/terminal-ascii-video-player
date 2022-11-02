@@ -1,6 +1,6 @@
 from PIL import Image
-import time
-
+from os import listdir
+from time import time, sleep
 
 CHARACTERS = ["@", "&", "$", "#", "%", "?", "+", ";", ":", ",", "."]
 BRIGHTNESS_TO_ASCII_SCALE = 255 // (len(CHARACTERS) - 1)
@@ -36,20 +36,19 @@ def print_image(image_width=300) -> None:
 
 
 def main(frame_width=100) -> None:
-    second = 1
-    frame_duration = second / FPS
+    frame_duration = 1 / FPS
 
-    for i in range(1, 6573):
-        frame_start = time.time()
+    for i in range(1, len(listdir("./frames")) - 1):
+        frame_start = time()
 
         with Image.open(f"./frames/frame{i}.png") as frame:
             ascii_frame = convert_frame(frame, frame_width)
             print(ascii_frame)
 
-        frame_end = time.time()
+        frame_end = time()
         frame_delay = frame_duration - (frame_end - frame_start)
         if (frame_delay > 0):
-            time.sleep(frame_delay)
+            sleep(frame_delay)
 
 
 main()
