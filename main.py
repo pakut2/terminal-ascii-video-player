@@ -25,6 +25,7 @@ def convert_frame(frame: Image, frame_width=100) -> str:
     resized_frame = resize_frame(frame, frame_width)
     grayscaled_frame = resized_frame.convert("L")
     ascii_frame_stringified = frame_to_ascii_string(grayscaled_frame)
+
     return "\n".join([ascii_frame_stringified[i:(i+frame_width)]
                       for i in range(0, len(ascii_frame_stringified), frame_width)])
 
@@ -46,8 +47,11 @@ def main(frame_width=100) -> None:
             print(ascii_frame)
 
         frame_end = time.time()
-        frame_delay = frame_duration - (frame_end - frame_start)
+        frame_elapsed = frame_end - frame_start
+        frame_delay = frame_duration - frame_elapsed
+
         if (frame_delay > 0):
             time.sleep(frame_delay)
+
 
 main()
