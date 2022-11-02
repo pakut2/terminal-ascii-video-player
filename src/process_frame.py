@@ -1,10 +1,7 @@
 from PIL import Image
-import os
-import time
 
 CHARACTERS = ["@", "&", "$", "#", "%", "?", "+", ";", ":", ",", "."]
 BRIGHTNESS_TO_ASCII_SCALE = 255 // (len(CHARACTERS) - 1)
-FPS = 24
 
 
 def resize_frame(frame: Image, resized_image_width: int) -> Image:
@@ -28,30 +25,3 @@ def convert_frame(frame: Image, frame_width: int) -> str:
 
     return "\n".join([ascii_frame_stringified[i:(i+frame_width)]
                       for i in range(0, len(ascii_frame_stringified), frame_width)])
-
-
-def print_image(horizontal_resolution=300) -> None:
-    with Image.open("./shrek.jpeg") as image:
-        ascii_image = convert_frame(image, horizontal_resolution)
-        print(ascii_image)
-
-
-def play_video(horizontal_resolution=100) -> None:
-    frame_duration = 1 / FPS
-
-    for i in range(1, len(os.listdir("./frames"))):
-        frame_start = time.perf_counter()
-
-        with Image.open(f"./frames/frame{i}.png") as frame:
-            ascii_frame = convert_frame(frame, horizontal_resolution)
-            print(ascii_frame)
-
-        frame_end = time.perf_counter()
-        frame_elapsed = frame_end - frame_start
-        frame_delay = frame_duration - frame_elapsed
-
-        if (frame_delay > 0):
-            time.sleep(frame_delay)
-
-
-play_video()

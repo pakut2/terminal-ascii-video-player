@@ -13,7 +13,11 @@ pip install -r requirements.txt
 Run:
 
 ```shell
-python3 main.py
+# Play video
+python3 src/video.py
+
+# Print single image
+python3 src/image.py
 ```
 
 ---
