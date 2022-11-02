@@ -21,7 +21,7 @@ def frame_to_ascii_string(frame: Image) -> str:
     return "".join([CHARACTERS[pixel//BRIGHTNESS_TO_ASCII_SCALE] for pixel in pixels])
 
 
-def convert_frame(frame: Image, frame_width=100) -> str:
+def convert_frame(frame: Image, frame_width: int) -> str:
     resized_frame = resize_frame(frame, frame_width)
     grayscaled_frame = resized_frame.convert("L")
     ascii_frame_stringified = frame_to_ascii_string(grayscaled_frame)
@@ -30,13 +30,13 @@ def convert_frame(frame: Image, frame_width=100) -> str:
                       for i in range(0, len(ascii_frame_stringified), frame_width)])
 
 
-def print_image(image_width=300) -> None:
+def print_image(horizontal_resolution=300) -> None:
     with Image.open("./shrek.jpeg") as image:
-        ascii_image = convert_frame(image, image_width)
+        ascii_image = convert_frame(image, horizontal_resolution)
         print(ascii_image)
 
 
-def main(horizontal_resolution=100) -> None:
+def play_video(horizontal_resolution=100) -> None:
     frame_duration = 1 / FPS
 
     for i in range(1, len(os.listdir("./frames"))):
@@ -54,4 +54,4 @@ def main(horizontal_resolution=100) -> None:
             time.sleep(frame_delay)
 
 
-main()
+play_video()
