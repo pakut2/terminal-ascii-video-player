@@ -5,7 +5,7 @@
 *.jpeg
 *.txt
 
-/frames
-/video
+/frames/*.png
+/video/*.mp4
 
 run.sh
