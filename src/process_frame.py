@@ -4,12 +4,12 @@ CHARACTERS = ["@", "&", "$", "#", "%", "?", "+", ";", ":", ",", "."]
 BRIGHTNESS_TO_ASCII_SCALE = 255 // (len(CHARACTERS) - 1)
 
 
-def resize_frame(frame: Image, resized_image_width: int) -> Image:
+def resize_frame(frame: Image, resized_width: int) -> Image:
     original_width, original_height = frame.size
     resize_ratio = original_height / original_width / 2
-    resized_image_height = int(resized_image_width * resize_ratio)
+    resized_height = int(resized_width * resize_ratio)
 
-    return frame.resize((resized_image_width, resized_image_height))
+    return frame.resize((resized_width, resized_height))
 
 
 def frame_to_ascii_string(frame: Image) -> str:
