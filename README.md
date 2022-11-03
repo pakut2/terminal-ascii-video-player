@@ -14,10 +14,10 @@ Run:
 
 ```shell
 # Play video
-python3 src/video.py
+python3 src/video.py -h
 
-# Print single image
-python3 src/image.py
+# Display single image
+python3 src/image.py -h
 ```
 
 ---
