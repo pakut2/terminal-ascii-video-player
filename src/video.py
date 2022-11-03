@@ -1,18 +1,26 @@
 from PIL import Image
+import argparse
 import os
 import time
 from process_frame import convert_frame
 
+parser = argparse.ArgumentParser(description="Display ASCII video")
+parser.add_argument("--frames", dest="frames_dir", type=str, required=True,
+                    help="Path to directory containing video frames")
+parser.add_argument("--hres", type=int, default=100,
+                    help="Video horizontal resolution in pixels")
+
+args = parser.parse_args()
 FPS = 24
 
 
-def play_video(horizontal_resolution=100) -> None:
+def play_video(horizontal_resolution: int) -> None:
     frame_duration = 1 / FPS
 
-    for i in range(1, len(os.listdir("./frames"))):
+    for i in range(1, len(os.listdir(args.frames_dir))):
         frame_start = time.perf_counter()
 
-        with Image.open(f"./frames/frame{i}.png") as frame:
+        with Image.open(f"{args.frames_dir}/frame{i}.png") as frame:
             ascii_frame = convert_frame(frame, horizontal_resolution)
             print(ascii_frame)
 
@@ -24,4 +32,4 @@ def play_video(horizontal_resolution=100) -> None:
             time.sleep(frame_delay)
 
 
-play_video()
+play_video(abs(args.hres))
