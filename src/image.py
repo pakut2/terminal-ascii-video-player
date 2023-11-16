@@ -1,6 +1,6 @@
 from PIL import Image
 import argparse
-from process_frame import convert_frame
+from image_processor import image_to_ascii_string
 
 parser = argparse.ArgumentParser(description="Display ASCII image")
 parser.add_argument("--image", dest="image_path", type=str, required=True,
@@ -13,7 +13,7 @@ args = parser.parse_args()
 
 def print_image(horizontal_resolution: int) -> None:
     with Image.open(args.image_path) as image:
-        ascii_image = convert_frame(image, horizontal_resolution)
+        ascii_image = image_to_ascii_string(image, horizontal_resolution)
         print(ascii_image)
 
 

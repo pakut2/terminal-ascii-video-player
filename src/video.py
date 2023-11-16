@@ -2,7 +2,8 @@ from PIL import Image
 import argparse
 import os
 import time
-from process_frame import convert_frame
+import curses
+from image_processor import image_to_ascii_string
 
 parser = argparse.ArgumentParser(description="Display ASCII video")
 parser.add_argument("--hres", type=int, default=100,
@@ -13,14 +14,17 @@ FPS = 24
 
 
 def play_video(horizontal_resolution: int) -> None:
+    screen = curses.initscr()
     frame_duration = 1 / FPS
 
     for i in range(1, len(os.listdir("./frames"))):
         frame_start = time.perf_counter()
 
         with Image.open(f"./frames/frame{i}.png") as frame:
-            ascii_frame = convert_frame(frame, horizontal_resolution)
-            print(ascii_frame)
+            ascii_frame = image_to_ascii_string(frame, horizontal_resolution)
+
+            screen.addstr(0, 0, ascii_frame)
+            screen.refresh()
 
         frame_end = time.perf_counter()
         frame_elapsed = frame_end - frame_start
@@ -30,4 +34,7 @@ def play_video(horizontal_resolution: int) -> None:
             time.sleep(frame_delay)
 
 
-play_video(abs(args.hres))
+try:
+    play_video(abs(args.hres))
+finally:
+    curses.endwin()
